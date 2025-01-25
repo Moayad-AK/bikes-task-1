@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Cairo");
+
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Cairo";
+}
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
