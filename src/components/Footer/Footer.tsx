@@ -9,7 +9,8 @@ const Footer = () => {
       color="gray.400"
       py={"5"}
       textAlign="center"
-      bottom={0}
+      position={"relative"}
+      bottom={""}
       width="100%"
     >
       <VStack gap={1}>
