@@ -48,34 +48,3 @@ const useFetchBikes = (query: IUseFetchBikesParams) =>
   });
 
 export default useFetchBikes;
-
-// import axios from "axios";
-// import { Bike, IBikesResponse } from "../types";
-
-// interface CardQuery {
-//   pageSize: number;
-//   page: number;
-//   // stolenness?: string;
-// }
-
-// const useCards = (query: CardQuery) =>
-//   useQuery<IBikesResponse, Error>({
-//     queryKey: ["search", query],
-//     queryFn: () =>
-//       axios
-//         .get<IBikesResponse>(
-//           "https://bikeindex.org:443/api/v3/search?stolenness=all",
-//           {
-//             params: {
-//               // stolenness: "all",
-//               page: (query.page - 1) * query.pageSize,
-//               per_page: query.pageSize,
-//             },
-//           }
-//         )
-//         .then((res) => res.data),
-//     staleTime: 1 * 60 * 1000, //1m
-//     keepPreviousData: true,
-//   });
-
-// export default useCards;

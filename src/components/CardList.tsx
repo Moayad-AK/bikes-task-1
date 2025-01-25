@@ -16,16 +16,17 @@ import useFetchCount from "@/hooks/useFetchCount";
 import LoadingState from "@/components/DataState/LoadingState";
 import ErrorState from "@/components/DataState/ErrorState";
 import EmptyState from "@/components/DataState/EmptyState";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const CardList = () => {
   const [filters, setFilters] = useState<IUseFetchBikesParams>({
-    title: "",
     dateRange: { from: "", to: "" },
     stolenness: "all",
     location: undefined,
     pageSize: 10,
   });
-
+  const [title, setTitle] = useState<string>("");
+  const debouncedQuery = useDebounce(title, 500);
   const {
     data,
     error,
@@ -33,7 +34,7 @@ const CardList = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useFetchBikes(filters);
+  } = useFetchBikes({ ...filters, title: debouncedQuery });
 
   const { data: countData } = useFetchCount(filters);
 
@@ -89,10 +90,10 @@ const CardList = () => {
   return (
     <Flex justify={"center"} direction={"column"} align="center">
       <FilterForm
-        title={filters.title ?? ""}
+        title={title ?? ""}
         dateRange={filters.dateRange}
         setFilters={setFilters}
-        onTitleChange={(title) => setFilters((prev) => ({ ...prev, title }))}
+        onTitleChange={(title) => setTitle(title)}
         onDateRangeChange={(dateRange) =>
           setFilters((prev) => ({ ...prev, dateRange }))
         }
