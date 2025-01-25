@@ -114,6 +114,7 @@ const CardList = () => {
                 flexDirection={{ sm: "row", base: "column" }}
                 overflow="hidden"
                 width={{ md: "75%", base: "60%" }}
+                maxHeight={{ md: "200px", sm: "" }}
               >
                 <Image
                   objectFit="cover"

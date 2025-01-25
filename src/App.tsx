@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Header />
-      <Container centerContent={true} pb={"40px"}>
+      <Container centerContent={true} pt={"100px"}>
         <CardList />
       </Container>
       <Footer />

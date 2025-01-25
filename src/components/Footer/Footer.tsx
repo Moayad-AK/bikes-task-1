@@ -3,12 +3,12 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 const Footer = () => {
   return (
     <Box
+      mt={"40px"}
       as="footer"
       bg="#111"
       color="gray.400"
-      py={4}
+      py={"5"}
       textAlign="center"
-      position="fixed"
       bottom={0}
       width="100%"
     >
