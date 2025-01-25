@@ -18,7 +18,6 @@ import ErrorState from "@/components/DataState/ErrorState";
 import EmptyState from "@/components/DataState/EmptyState";
 
 const CardList = () => {
-  // Single state object
   const [filters, setFilters] = useState<IUseFetchBikesParams>({
     title: "",
     dateRange: { from: "", to: "" },
@@ -37,8 +36,6 @@ const CardList = () => {
   } = useFetchBikes(filters);
 
   const { data: countData } = useFetchCount(filters);
-
-  console.log(countData);
 
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -64,14 +61,15 @@ const CardList = () => {
   }
 
   if (error) {
-    console.log(error.name);
-
     return <ErrorState message={error.message} />;
   }
 
-  // if (countData?.proximity === 0 || countData?.stolen === 0) {
-  //   return <EmptyState />;
-  // }
+  const empty = () => {
+    if (!data?.pages?.some((page) => page.bikes.length > 0)) {
+      return <EmptyState />;
+    }
+    return null;
+  };
 
   const formattedDate = (dateString: number) => {
     const date = new Date(dateString * 1000);
@@ -101,9 +99,7 @@ const CardList = () => {
         onResetFilters={handleResetFilters}
         countData={countData}
       />
-      {(countData?.proximity === 0 || countData?.stolen === 0) && (
-        <EmptyState />
-      )}
+      {empty()}
       <Flex wrap="wrap" justify="center" gap="5" w="100%">
         {data.pages.map((page, pageIndex) =>
           page.bikes.map((card, cardIndex) => {
@@ -154,95 +150,3 @@ const CardList = () => {
 };
 
 export default CardList;
-
-// import React, { useState } from "react";
-// import {
-//   Badge,
-//   Box,
-//   Card,
-//   Center,
-//   Flex,
-//   HStack,
-//   Image,
-//   List,
-//   Text,
-// } from "@chakra-ui/react";
-// import {
-//   PaginationItems,
-//   PaginationNextTrigger,
-//   PaginationPageText,
-//   PaginationPrevTrigger,
-//   PaginationRoot,
-// } from "@/components/ui/pagination";
-// import { format, set } from "date-fns";
-// import fallbackImage from "../assets/no-image.jpg";
-// import useCards from "../hooks/useCards";
-
-// const CardList = () => {
-//   const pageSize = 10;
-//   const [page, setPage] = useState(1);
-//   const { data: cards, error, isLoading } = useCards({ pageSize, page });
-
-//   if (error) {
-//     return <p className="text-danger">{error.message}</p>;
-//   }
-
-//   if (isLoading) {
-//     return <p className="text-primary">loading...</p>;
-//   }
-
-//   const formattedDate = (dateString: number) => {
-//     const date = new Date(dateString * 1000);
-//     return format(date, "MM/dd/yyyy");
-//   };
-
-//   return (
-//     <Flex my="8" justify={"center"} direction={"column"} align="center">
-//       <Flex wrap="wrap" justify="center" gap="5" w="100%">
-//         {cards?.bikes?.map((card) => (
-//           <Card.Root
-//             key={card?.id}
-//             flexDirection={{ sm: "row", base: "column" }}
-//             overflow="hidden"
-//             width={{ md: "75%", base: "60%" }}
-//           >
-//             <Image
-//               objectFit="cover"
-//               maxW={{ md: "35%", base: "100%" }}
-//               src={card?.thumb || fallbackImage}
-//               alt="Stolen Bike"
-//             />
-//             <Box px="5" py="3" display="flex" flexDirection="column">
-//               <Card.Body>
-//                 <Card.Title mb="2">{card?.title}</Card.Title>
-//                 <Card.Description>{card?.description}</Card.Description>
-//                 <Text my="3">Location: {card.stolen_location}</Text>
-//               </Card.Body>
-//               <Card.Footer>
-//                 <HStack flexDirection={{ sm: "row", base: "column" }}>
-//                   <Text>Stolen: {formattedDate(card?.date_stolen)},</Text>
-//                   <Text>
-//                     Report Year:
-//                     {card?.year || " Unknown"}
-//                   </Text>
-//                 </HStack>
-//               </Card.Footer>
-//             </Box>
-//           </Card.Root>
-//         ))}
-//       </Flex>
-//       <PaginationRoot count={20} pageSize={pageSize} defaultPage={page} my="6">
-//         <HStack gap="4">
-//           <PaginationPrevTrigger
-//             disabled={page === 1}
-//             onClick={() => setPage(page - 1)}
-//           />
-//           <PaginationPageText />
-//           <PaginationNextTrigger onClick={() => setPage(page + 1)} />
-//         </HStack>
-//       </PaginationRoot>
-//     </Flex>
-//   );
-// };
-
-// export default CardList;

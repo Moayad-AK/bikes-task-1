@@ -1,16 +1,19 @@
-import { Text, VStack, Image } from "@chakra-ui/react";
-import emptyImage from "../../assets/no-image.jpg";
+import { List } from "@chakra-ui/react";
+import { EmptyState as ChEmptyState } from "@/components/ui/empty-state";
+import { HiColorSwatch } from "react-icons/hi";
 
 const EmptyState = () => (
-  <VStack gap={4} align="center" justify="center" minH="50vh">
-    <Image src={emptyImage} alt="No data" boxSize="200px" objectFit="contain" />
-    <Text fontSize="lg" fontWeight="medium" color="gray.600">
-      No data found.
-    </Text>
-    <Text fontSize="sm" color="gray.500" textAlign="center" maxW="sm">
-      Try adjusting your filters or search to find what you're looking for.
-    </Text>
-  </VStack>
+  <ChEmptyState
+    py={5}
+    icon={<HiColorSwatch />}
+    title="No results found"
+    description="Try adjusting your search"
+  >
+    <List.Root variant="marker">
+      <List.Item>Try removing filters</List.Item>
+      <List.Item>Try different keywords</List.Item>
+    </List.Root>
+  </ChEmptyState>
 );
 
 export default EmptyState;
